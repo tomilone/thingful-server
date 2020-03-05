@@ -1,5 +1,5 @@
 # Thingful Server
-
+Worked on by Tony Milone, Rupi Rajput and Humberto Hernandez
 ## Setting Up
 
 - Install dependencies: `npm install`
