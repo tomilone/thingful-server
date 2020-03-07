@@ -1,8 +1,9 @@
 const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
+const config = require('../src/config')
 
-describe('Things Endpoints', function() {
+describe.only('Things Endpoints', function () {
   let db
 
   const {
@@ -87,10 +88,14 @@ describe('Things Endpoints', function() {
 
   describe(`GET /api/things/:thing_id`, () => {
     context(`Given no things`, () => {
+      beforeEach(() =>
+        helpers.seedUsers(db, testUsers)
+      )
       it(`responds with 404`, () => {
         const thingId = 123456
         return supertest(app)
           .get(`/api/things/${thingId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(404, { error: `Thing doesn't exist` })
       })
     })
@@ -115,6 +120,7 @@ describe('Things Endpoints', function() {
 
         return supertest(app)
           .get(`/api/things/${thingId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, expectedThing)
       })
     })
@@ -137,6 +143,7 @@ describe('Things Endpoints', function() {
       it('removes XSS attack content', () => {
         return supertest(app)
           .get(`/api/things/${maliciousThing.id}`)
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .expect(200)
           .expect(res => {
             expect(res.body.title).to.eql(expectedThing.title)
@@ -148,33 +155,40 @@ describe('Things Endpoints', function() {
 
   describe(`GET /api/things/:thing_id/reviews`, () => {
     context(`Given no things`, () => {
+      beforeEach(() =>
+        helpers.seedUsers(db, testUsers)
+      )
       it(`responds with 404`, () => {
         const thingId = 123456
         return supertest(app)
           .get(`/api/things/${thingId}/reviews`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(404, { error: `Thing doesn't exist` })
       })
-    })
 
-    context('Given there are reviews for thing in the database', () => {
-      beforeEach('insert things', () =>
-        helpers.seedThingsTables(
-          db,
-          testUsers,
-          testThings,
-          testReviews,
-        )
-      )
 
-      it('responds with 200 and the specified reviews', () => {
-        const thingId = 1
-        const expectedReviews = helpers.makeExpectedThingReviews(
-          testUsers, thingId, testReviews
+      context('Given there are reviews for thing in the database', () => {
+        beforeEach('insert things', () =>
+          // helpers.seedUsers(db, testUsers)
+          helpers.seedThingsTables(
+            db,
+            testUsers,
+            testThings,
+            testReviews,
+          )
         )
 
-        return supertest(app)
-          .get(`/api/things/${thingId}/reviews`)
-          .expect(200, expectedReviews)
+        it.only('responds with 200 and the specified reviews', () => {
+          const thingId = 1
+          const expectedReviews = helpers.makeExpectedThingReviews(
+            testUsers, thingId, testReviews
+          )
+
+          return supertest(app)
+            .get(`/api/things/${thingId}/reviews`)
+            .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+            .expect(200, expectedReviews)
+        })
       })
     })
   })
