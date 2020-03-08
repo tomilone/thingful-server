@@ -155,8 +155,17 @@ describe.only('Things Endpoints', function () {
 
   describe(`GET /api/things/:thing_id/reviews`, () => {
     context(`Given no things`, () => {
-      beforeEach(() =>
-        helpers.seedUsers(db, testUsers)
+      // not needed used line 162 - 169
+      // beforeEach(() =>
+      //   helpers.seedUsers(db, testUsers)
+      // )
+      beforeEach('insert things', () =>
+        helpers.seedThingsTables(
+          db,
+          testUsers,
+          testThings,
+          testReviews,
+        )
       )
       it(`responds with 404`, () => {
         const thingId = 123456
@@ -168,17 +177,18 @@ describe.only('Things Endpoints', function () {
 
 
       context('Given there are reviews for thing in the database', () => {
-        beforeEach('insert things', () =>
-          // helpers.seedUsers(db, testUsers)
-          helpers.seedThingsTables(
-            db,
-            testUsers,
-            testThings,
-            testReviews,
-          )
-        )
+        // this was createing the duplicate keys 
+        // beforeEach('insert things', () =>
+        //   // helpers.seedUsers(db, testUsers)
+        //   helpers.seedThingsTables(
+        //     db,
+        //     testUsers,
+        //     testThings,
+        //     testReviews,
+        //   )
+        // )
 
-        it.only('responds with 200 and the specified reviews', () => {
+        it('responds with 200 and the specified reviews', () => {
           const thingId = 1
           const expectedReviews = helpers.makeExpectedThingReviews(
             testUsers, thingId, testReviews
