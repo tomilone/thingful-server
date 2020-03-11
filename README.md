@@ -1,6 +1,6 @@
 # Thingful Server
 
-Worked on by Tony Milone, Rupi Rajput and Humberto Hernandez - test test
+Worked on by Tony Milone, Rupi Rajput and Humberto Hernandez
 
 ## Setting Up
 
