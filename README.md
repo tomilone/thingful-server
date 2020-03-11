@@ -1,5 +1,7 @@
 # Thingful Server
-Worked on by Tony Milone, Rupi Rajput and Humberto Hernandez
+
+Worked on by Tony Milone, Rupi Rajput and Humberto Hernandez - test test
+
 ## Setting Up
 
 - Install dependencies: `npm install`
@@ -18,7 +20,7 @@ Worked on by Tony Milone, Rupi Rajput and Humberto Hernandez
 For tests involving time to run properly, your Postgres database must be configured to run in the UTC timezone.
 
 1. Locate the `postgresql.conf` file for your Postgres installation.
-    - OS X, Homebrew: `/usr/local/var/postgres/postgresql.conf`
+   - OS X, Homebrew: `/usr/local/var/postgres/postgresql.conf`
 2. Uncomment the `timezone` line and set it to `UTC` as follows:
 
 ```
