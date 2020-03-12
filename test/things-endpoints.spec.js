@@ -3,7 +3,7 @@ const app = require('../src/app')
 const helpers = require('./test-helpers')
 const config = require('../src/config')
 
-describe.only('Things Endpoints', function () {
+describe('Things Endpoints', function () {
   let db
 
   const {

@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe.only('Protected endpoints', function () {
+describe('Protected endpoints', function () {
   let db
 
   const {
@@ -48,6 +48,11 @@ describe.only('Protected endpoints', function () {
     {
       name: 'POST /api/reviews',
       path: '/api/reviews',
+      method: supertest(app).post,
+    },
+    {
+      name: 'POST /api/auth/refresh',
+      path: '/api/auth/refresh',
       method: supertest(app).post,
     },
   ]
