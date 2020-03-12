@@ -2,6 +2,8 @@ const express = require('express')
 const path = require('path')
 const usersRouter = express.Router()
 const jsonBodyParser = express.json()
+const UsersService = require('./users-service')
+// forgot to import 
 
 usersRouter
   .post('/', jsonBodyParser, (req, res, next) => {
@@ -12,6 +14,8 @@ usersRouter
           error: `Missing '${field}' in request body`
         })
 
+    // added const for password 
+    const passwordError = UsersService.validatePassword(password)
     if (passwordError)
       return res.status(400).json({ error: passwordError })
     UsersService.hasUserWithUserName(
